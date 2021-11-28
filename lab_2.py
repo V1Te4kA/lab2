@@ -1,11 +1,11 @@
 import csv
-import sys
+import requests
 
 def writeToFile(animes):
-    with open(sys.argv[2], 'w', encoding = 'utf-8') as f:
+    with open('D:/anime.txt', 'w', encoding = 'utf-8') as f:
         if (len(animes) > 0):
             for anime in animes:
-                f.write(anime['Name'] + '\n' + anime['Url'] + '\n' + '\n')
+                f.write(anime['Name'] + '\n' + anime['Url'] + '\n'+ '\n')
 
 
 def findAnimeByName(text, animes):
@@ -14,9 +14,7 @@ def findAnimeByName(text, animes):
     if (name != ''):
         for anime in text:
             if (anime['Name'].lower() == name.lower() or anime['Alternative Name'].lower() == name.lower()):
-                animes.append(anime)
-                writeToFile(animes)
-                print('Нужное аниме выведено в файл')
+                print(anime['Name'] + '\n' + anime['Url'])
                 quit()
         print('Такого аниме не найдено')
         quit()
@@ -40,9 +38,6 @@ def findAnimeByTag(text, animes):
 def findAnimeByEpisodes(text, animes):
     print('Вас интересует короткометражное или полнометражное аниме? (ENTER, если не важно): ', end = '')
     episodes = str(input())
-    if (episodes.lower() != 'полнометражное' or episodes.lower() != 'короткометражное'):
-        print('Введённые данные некорректны')
-        quit()
     if (episodes != ''):
         if (len(animes)) > 0:
             temp_animes = animes
@@ -95,23 +90,53 @@ def findAnimeByDuration(text, animes):
             quit()
 
 
-def main():
-    if (len(sys.argv) < 3):
-        print('Не указаны нужные файлы: файл с перечнем аниме и файл вывода данных')
-        return
+def RatingSort(animes):
+    ratingsort = list()
+    for anime in animes:
+        if (anime['Rating Score'] == 'Unknown'):
+            continue
+        else:
+            ratingsort.append(float(anime['Rating Score']))
+    ratingsort = list(set(ratingsort))
+    ratingsort.sort()
+    ratingsort.reverse()
+    temp_animes = animes
     animes = list()
-    with open(sys.argv[1], encoding = 'utf-8') as file:
+    for score in ratingsort:
+        for anime in temp_animes:
+            if (anime['Rating Score'] == 'Unknown'):
+                continue
+            if (score == float(anime['Rating Score'])):
+                animes.append(anime)
+        for anime in temp_animes:
+            if (anime['Rating Score'] == 'Unknown'):
+                animes.append(anime)
+    return animes
+
+
+def main():
+    animes = list()
+    with open('D:/anime.csv', encoding = 'utf-8') as file:
         text = csv.DictReader(file, delimiter = ',')
         findAnimeByName(text, animes)
         findAnimeByTag(text, animes)
         findAnimeByEpisodes(text, animes)
         findAnimeByDuration(text, animes)
         if (len(animes) > 0):
+            RatingSort(animes)
             writeToFile(animes)
             print('Список подходящих вам аниме записан в файл')
+            
+            y = slice(0, 5)
+            for anime in animes[y]:
+                url = str('https://www.anime-planet.com/images/anime/covers/' + str(anime['Anime-PlanetID']) + '.jpg?t=1523213250')
+                name = anime['Anime-PlanetID']
+                img = requests.get(url)
+                img_opt = open(name + '.jpg', 'wb')
+                img_opt.write(img.content)
+                img_opt.close()
             return
         print('Вам подходят все аниме')
-
 
 if (__name__ == '__main__'):
     main()
