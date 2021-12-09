@@ -9,11 +9,13 @@ def write_to_file(animes):
 
 
 def find_anime_by_name(text, animes):
-    print('Вас интересует какое-то конкретное аниме? (Если да, введите его название; иначе нажмите ENTER): ', end = '')
+    print('Вас интересует какое-то конкретное аниме?\
+    (Если да, введите его название; иначе нажмите ENTER): ', end = '')
     name = input(str())
     if (name != ''):
         for anime in text:
-            if (anime['Name'].lower() == name.lower() or anime['Alternative Name'].lower() == name.lower()):
+            if (anime['Name'].lower() == name.lower() or\
+                anime['Alternative Name'].lower() == name.lower()):
                 print(anime['Name'] + '\n' + anime['Url'])
                 quit()
         print('Такого аниме не найдено')
@@ -21,7 +23,8 @@ def find_anime_by_name(text, animes):
 
 
 def find_anime_by_tag(text, animes):
-    print('Какой жанр Вас интересует? (Введите через запятую, если это не очень важно нажмите ENTER): ', end = '')
+    print('Какой жанр Вас интересует?\ 
+    (Введите через запятую, если это не очень важно нажмите ENTER): ', end = '')
     tags = str(input())
     tags_array = list()
     if (tags != ''):
@@ -36,7 +39,8 @@ def find_anime_by_tag(text, animes):
 
 
 def find_anime_by_episodes(text, animes):
-    print('Вас интересует короткометражное или полнометражное аниме? (ENTER, если не важно): ', end = '')
+    print('Вас интересует короткометражное или полнометражное аниме?\ 
+    (ENTER, если не важно): ', end = '')
     episodes = str(input())
     if (episodes != ''):
         if (len(animes)) > 0:
@@ -68,7 +72,8 @@ def find_anime_by_episodes(text, animes):
     
 
 def find_anime_by_duration(text, animes):
-    print('Какая продолжительность Вас интересует (Кол-во часов)? (ENTER, если не важно): ', end = '')
+    print('Какая продолжительность Вас интересует (Кол-во часов)?\ 
+    (ENTER, если не важно): ', end = '')
     duration = str(input())
     if (duration != ''):
         if (len(animes)) > 0:
@@ -128,7 +133,8 @@ def main():
             print('Список подходящих вам аниме записан в файл')
            
             for anime in animes[:5]:
-                url = str('https://www.anime-planet.com/images/anime/covers/' + str(anime['Anime-PlanetID']) + '.jpg?t=1523213250')
+                url = str('https://www.anime-planet.com/images/anime/covers/'\
+                          + str(anime['Anime-PlanetID']) + '.jpg?t=1523213250')
                 name = anime['Anime-PlanetID']
                 img = requests.get(url)
                 img_opt = open(name + '.jpg', 'wb')
