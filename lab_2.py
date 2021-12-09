@@ -1,14 +1,14 @@
 import csv
 import requests
 
-def writeToFile(animes):
+def write_to_file(animes):
     with open('D:/anime.txt', 'w', encoding = 'utf-8') as f:
         if (len(animes) > 0):
             for anime in animes:
                 f.write(anime['Name'] + '\n' + anime['Url'] + '\n'+ '\n')
 
 
-def findAnimeByName(text, animes):
+def find_anime_by_name(text, animes):
     print('Вас интересует какое-то конкретное аниме? (Если да, введите его название; иначе нажмите ENTER): ', end = '')
     name = input(str())
     if (name != ''):
@@ -20,7 +20,7 @@ def findAnimeByName(text, animes):
         quit()
 
 
-def findAnimeByTag(text, animes):
+def find_anime_by_tag(text, animes):
     print('Какой жанр Вас интересует? (Введите через запятую, если это не очень важно нажмите ENTER): ', end = '')
     tags = str(input())
     tags_array = list()
@@ -35,7 +35,7 @@ def findAnimeByTag(text, animes):
             quit()
 
 
-def findAnimeByEpisodes(text, animes):
+def find_anime_by_episodes(text, animes):
     print('Вас интересует короткометражное или полнометражное аниме? (ENTER, если не важно): ', end = '')
     episodes = str(input())
     if (episodes != ''):
@@ -67,7 +67,7 @@ def findAnimeByEpisodes(text, animes):
             quit()
     
 
-def findAnimeByDuration(text, animes):
+def find_anime_by_duration(text, animes):
     print('Какая продолжительность Вас интересует (Кол-во часов)? (ENTER, если не важно): ', end = '')
     duration = str(input())
     if (duration != ''):
@@ -90,7 +90,7 @@ def findAnimeByDuration(text, animes):
             quit()
 
 
-def RatingSort(animes):
+def rating_sort(animes):
     ratingsort = list()
     for anime in animes:
         if (anime['Rating Score'] == 'Unknown'):
@@ -118,17 +118,16 @@ def main():
     animes = list()
     with open('D:/anime.csv', encoding = 'utf-8') as file:
         text = csv.DictReader(file, delimiter = ',')
-        findAnimeByName(text, animes)
-        findAnimeByTag(text, animes)
-        findAnimeByEpisodes(text, animes)
-        findAnimeByDuration(text, animes)
+        find_anime_by_name(text, animes)
+        find_anime_by_tag(text, animes)
+        find_anime_by_episodes(text, animes)
+        find_anime_by_duration(text, animes)
         if (len(animes) > 0):
-            RatingSort(animes)
-            writeToFile(animes)
+            rating_sort(animes)
+            write_to_file(animes)
             print('Список подходящих вам аниме записан в файл')
-            
-            y = slice(0, 5)
-            for anime in animes[y]:
+           
+            for anime in animes[:5]:
                 url = str('https://www.anime-planet.com/images/anime/covers/' + str(anime['Anime-PlanetID']) + '.jpg?t=1523213250')
                 name = anime['Anime-PlanetID']
                 img = requests.get(url)
