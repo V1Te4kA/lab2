@@ -44,7 +44,7 @@ def find_anime_by_episodes(text, animes):
     if episodes != '':
         temp_animes = animes[:] if len(animes) else text
         animes.clear()
-        for anime temp_animes:
+        for anime in temp_animes:
             if episodes.lower() == 'короткометражное':
                 if anime['Episodes'] == 'Unknown':
                     continue
@@ -65,7 +65,7 @@ def find_anime_by_duration(text, animes):
     if duration != '':
         temp_animes = animes[:] if len(animes) else text
         animes.clear()
-        for anime temp_animes:
+        for anime in temp_animes:
             if anime['Duration'] == 'Unknown':
                 continue
             if anime['Duration'] == duration:
