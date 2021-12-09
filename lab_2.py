@@ -22,7 +22,7 @@ def find_anime_by_name(text, animes):
 
 
 def find_anime_by_tag(text, animes):
-    print('Какой жанр Вас интересует?\ 
+    print('Какой жанр Вас интересует?\
     (Введите через запятую, если это не очень важно нажмите ENTER): ', end = '')
     tags = str(input())
     tags_array = list()
@@ -38,7 +38,7 @@ def find_anime_by_tag(text, animes):
 
 
 def find_anime_by_episodes(text, animes):
-    print('Вас интересует короткометражное или полнометражное аниме?\ 
+    print('Вас интересует короткометражное или полнометражное аниме?\
     (ENTER, если не важно): ', end = '')
     episodes = str(input())
     if episodes != '':
@@ -52,14 +52,14 @@ def find_anime_by_episodes(text, animes):
                     animes.append(anime)
             elif episodes.lower() == 'полнометражное':
                 if anime['Episodes'] == '1':
-                  animes.append(anime)
+                    animes.append(anime)
         if len(animes) < 1:
             print('Таких аниме не найдено')
             quit()
     
 
 def find_anime_by_duration(text, animes):
-    print('Какая продолжительность Вас интересует (Кол-во часов)?\ 
+    print('Какая продолжительность Вас интересует (Кол-во часов)?\
     (ENTER, если не важно): ', end = '')
     duration = str(input())
     if duration != '':
@@ -114,7 +114,7 @@ def main():
            
             for anime in animes[:5]:
                 url = str('https://www.anime-planet.com/images/anime/covers/'\
-                          + str(anime['Anime-PlanetID']) + '.jpg?t=1523213250')
+                + str(anime['Anime-PlanetID']) + '.jpg?t=1523213250')
                 name = anime['Anime-PlanetID']
                 img = requests.get(url)
                 img_opt = open(name + '.jpg', 'wb')
