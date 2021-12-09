@@ -42,29 +42,17 @@ def find_anime_by_episodes(text, animes):
     (ENTER, если не важно): ', end = '')
     episodes = str(input())
     if episodes != '':
-        if len(animes) > 0:
-            temp_animes = animes
-            animes = list()
+        temp_animes = animes[:] if len(animes) else text
+        animes.clear()
+        for anime temp_animes:
             if episodes.lower() == 'короткометражное':
-                for anime in temp_animes:
-                    if anime['Episodes'] == 'Unknown':
-                        continue
-                    if int(anime['Episodes']) > 1:
-                        animes.append(anime)
+                if anime['Episodes'] == 'Unknown':
+                    continue
+                if int(anime['Episodes']) > 1:
+                    animes.append(anime)
             elif episodes.lower() == 'полнометражное':
-                for anime in temp_animes:
-                    if anime['Episodes'] == '1':
-                        animes.append(anime)
-        else:
-            for anime in text:
-                if episodes.lower() == 'короткометражное':
-                    if anime['Episodes'] == 'Unknown':
-                        continue
-                    if int(anime['Episodes']) > 1:
-                        animes.append(anime)
-                elif episodes.lower() == 'полнометражное':
-                    if anime['Episodes'] == '1':
-                        animes.append(anime)
+                if anime['Episodes'] == '1':
+                  animes.append(anime)
         if len(animes) < 1:
             print('Таких аниме не найдено')
             quit()
@@ -75,20 +63,13 @@ def find_anime_by_duration(text, animes):
     (ENTER, если не важно): ', end = '')
     duration = str(input())
     if duration != '':
-        if len(animes) > 0:
-            temp_animes = animes
-            animes = list()
-            for anime in temp_animes:
-                if anime['Duration'] == 'Unknown':
-                    continue
-                if anime['Duration'] == duration:
-                    animes.append(anime)
-        else:
-            for anime in text:
-                if anime['Duration'] == 'Unknown':
-                    continue
-                if anime['Duration'] == duration:
-                    animes.append(anime)
+        temp_animes = animes[:] if len(animes) else text
+        animes.clear()
+        for anime temp_animes:
+            if anime['Duration'] == 'Unknown':
+                continue
+            if anime['Duration'] == duration:
+                animes.append(anime)
         if len(animes) < 1:
             print('Таких аниме не найдено')
             quit()
